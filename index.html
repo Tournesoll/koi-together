@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="锦鲤上岸，一份关于陪伴、回忆与共同上岸的 200 天纪念游戏。">
+  <meta name="theme-color" content="#111820">
+  <title>&#38182;&#40100;&#19978;&#23736;</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="styles.css?v=20260726-pages">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar"><div class="brand">&#38182;&#40100;&#19978;&#23736;</div><button id="audioToggle" class="icon-button audio-toggle" type="button" aria-label="&#20851;&#38381;&#38899;&#20048;" title="&#20851;&#38381;&#38899;&#20048;">&#9835;</button></header>
+    <section class="game-frame" aria-label="&#38182;&#40100;&#19978;&#23736;&#28216;&#25103;&#21306;&#22495;">
+      <canvas id="gameCanvas" width="1280" height="720"></canvas>
+      <div id="hud" class="hud hidden">
+        <div class="hud-cluster">
+          <div class="heart-meter" id="heartMeter" aria-label="&#29983;&#21629;"></div>
+          <strong id="durabilityValue" class="sr-only">100</strong>
+          <strong id="scoreValue" class="sr-only">0</strong>
+        </div>
+        <div class="wave-ink"><span>&#31532;</span><strong id="waveValue">1/20</strong><span>&#28010;</span></div>
+        <div class="hud-cluster hud-right">
+          <div class="theme-stat"><span>&#32536;</span><strong id="levelValue">1</strong></div>
+          <div class="theme-stat"><span>&#20462;&#34892;</span><strong id="xpValue">0/5</strong></div>
+          <div id="ultimateBadge" class="theme-stat memory-stat">&#21516;&#24515; 0</div>
+        </div>
+      </div>
+      <div id="startScreen" class="screen start-screen">
+        <div class="start-copy">
+          <p class="eyebrow">200 DAYS</p>
+          <h1>&#38182;&#40100;&#19978;&#23736;</h1>
+          <p>&#25226;&#25105;&#20204;&#30340;&#22238;&#24518;&#25910;&#36827;&#25163;&#37324;&#65292;&#19968;&#36215;&#28216;&#21521;&#29233;&#19982;&#19978;&#23736;&#30340;&#26410;&#26469;&#12290;</p>
+          <button id="startButton" class="primary-button" type="button">&#24320;&#22987;&#28216;</button>
+        </div>
+        <div class="controls"><span><kbd>&uarr;</kbd> <kbd>&darr;</kbd> &#20999;&#25442;&#36187;&#36947;</span><span>&#28857;&#20987;&#24213;&#37096;&#32426;&#24565;&#21345;&#37322;&#25918;&#25216;&#33021;</span></div>
+      </div>
+      <div id="countdown" class="countdown hidden" aria-live="assertive"></div>
+      <div id="upgradeScreen" class="screen choice-screen hidden">
+        <div class="choice-panel">
+          <p id="choiceEyebrow" class="eyebrow">LEVEL UP</p>
+          <h2 id="choiceTitle">&#36873;&#19968;&#39033;&#26412;&#23616;&#24378;&#21270;</h2>
+          <div class="choices">
+            <button class="choice" type="button" data-choice="0"><span class="choice-icon"></span><strong></strong><small></small></button>
+            <button class="choice" type="button" data-choice="1"><span class="choice-icon"></span><strong></strong><small></small></button>
+            <button class="choice" type="button" data-choice="2"><span class="choice-icon"></span><strong></strong><small></small></button>
+          </div>
+        </div>
+      </div>
+      <div id="endScreen" class="screen end-screen hidden">
+        <div class="end-copy">
+          <p id="endEyebrow" class="eyebrow"></p><h2 id="endTitle"></h2><p id="endMessage"></p>
+          <strong id="finalScore" class="sr-only">0</strong>
+          <button id="restartButton" class="primary-button" type="button">&#20877;&#28216;&#19968;&#27425;</button>
+        </div>
+      </div>
+      <div id="toast" class="toast hidden" aria-live="polite"></div>
+      <div id="cinematic" class="cinematic hidden" aria-live="assertive">
+        <strong>&#23545;&#30340;&#20154;&#20250;&#31449;&#22312;&#20320;&#30340;&#21069;&#36884;&#37324;&#65292;&#25105;&#20204;&#19968;&#36215;&#19978;&#23736;&#65281;</strong>
+        <span>&#28799;&#28799;&#40060;&#29088;&#29088;</span>
+      </div>
+      <div id="memoryScreen" class="memory-screen hidden" aria-live="polite">
+        <div id="memoryCard" class="memory-card">
+          <div class="memory-card-inner">
+            <article class="memory-face memory-front">
+              <p id="memoryDate" class="memory-date"></p>
+              <h2 id="memoryTitle"></h2>
+              <p id="memoryText"></p>
+              <button id="flipMemoryButton" class="primary-button" type="button">&#32763;&#24320;&#36825;&#27573;&#35760;&#24518;</button>
+            </article>
+            <article class="memory-face memory-back">
+              <div id="memoryImages" class="memory-images"></div>
+              <h2 id="memoryBackTitle"></h2>
+              <button id="keepMemoryButton" class="primary-button" type="button">&#25910;&#22909;&#36825;&#24352;&#21345;</button>
+            </article>
+          </div>
+        </div>
+      </div>
+      <div id="cardHand" class="card-hand" aria-label="&#32426;&#24565;&#21345;&#25163;&#29260;"></div>
+      <div id="giftScreen" class="gift-screen hidden">
+        <p class="eyebrow">OUR 200TH DAY</p>
+        <h2>&#25105;&#20204;&#32456;&#23558;&#25658;&#25163;&#19978;&#23736;</h2>
+        <button id="giftChestButton" class="gift-chest" type="button" aria-label="&#25171;&#24320;&#37329;&#33394;&#23453;&#31665;"><img src="game-assets/ui/chest.png" alt=""></button>
+        <div id="giftMessage" class="gift-message hidden">&#29616;&#22312;&#65292;&#22238;&#22836;~</div>
+      </div>
+      <div id="finalRescue" class="final-rescue hidden">
+        <img class="rescue-fish" src="game-assets/characters/summon/front_01.png" alt="">
+        <p>&#29088;&#29088;&#65292;&#25105;&#26469;&#20102;&#12290;&#36825;&#19968;&#27425;&#65292;&#25105;&#20204;&#19968;&#36215;&#12290;</p>
+        <button id="finalChestButton" class="rescue-chest" type="button" aria-label="&#25171;&#24320;&#21516;&#24515;&#23453;&#31665;"><img src="game-assets/ui/chest.png" alt=""></button>
+      </div>
+      <div id="testTools" class="test-tools hidden" aria-label="&#27979;&#35797;&#24037;&#20855;">
+        <button type="button" data-test="level">&#27979;&#35797;&#21319;&#32423;</button>
+        <button type="button" data-test="gold">&#27979;&#35797;&#37329;&#31665;</button>
+        <button type="button" data-test="bomb">&#27979;&#35797;&#28856;&#24377;</button>
+        <button type="button" data-test="rush">&#27979;&#35797;&#28856;&#24377;&#31361;&#36827;</button>
+        <button type="button" data-test="splash">&#27979;&#35797;&#33539;&#22260;&#29190;&#28856;</button>
+        <button type="button" data-test="card">&#27979;&#35797;&#32426;&#24565;&#21345;</button>
+        <button type="button" data-test="finalcard">&#27979;&#35797;&#32456;&#31456;&#21345;</button>
+        <button type="button" data-test="boss">&#27979;&#35797; BOSS</button>
+        <button type="button" data-test="boss2">&#27979;&#35797;&#26368;&#32456; BOSS</button>
+        <button type="button" data-test="late">&#27979;&#35797;&#21518;&#26399;&#38590;&#24230;</button>
+        <button type="button" data-test="damage">&#27979;&#35797;&#25187;&#34880;</button>
+        <button type="button" data-test="defense">&#27979;&#35797;&#38450;&#32447;</button>
+        <button type="button" data-test="shield">&#27979;&#35797;&#25252;&#30462;</button>
+        <button type="button" data-test="heal">&#27979;&#35797;&#20987;&#26432;&#22238;&#22797;</button>
+        <button type="button" data-test="debuff">&#27979;&#35797;&#36138;&#21507;&#21360;&#35760;</button>
+        <button type="button" data-test="rescue">&#27979;&#35797;&#32456;&#23616;&#25937;&#22330;</button>
+        <button type="button" data-test="win">&#27979;&#35797;&#36890;&#20851;</button>
+        <output id="testStatus"></output>
+      </div>
+    </section>
+    <div class="mobile-controls" aria-label="&#35302;&#23631;&#25511;&#21046;">
+      <div class="dpad">
+        <button type="button" data-key="ArrowUp" aria-label="&#19978;&#36187;&#36947;">&uarr;</button>
+        <button type="button" data-key="ArrowDown" aria-label="&#19979;&#36187;&#36947;">&darr;</button>
+      </div>
+      <div class="mobile-card-hint">&#28857;&#20987;&#25163;&#29260;&#37322;&#25918;&#25216;&#33021;</div>
+    </div>
+  </main>
+  <audio id="bgm" src="game-assets/audio/our-future.mp3" preload="auto" loop></audio>
+  <script src="game.js?v=20260726-pages"></script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+{
+  "background": {
+    "file": "backgrounds/main.png",
+    "width": 1672,
+    "height": 941
+  },
+  "player": {
+    "swim": [
+      {
+        "file": "characters/player/swim_01.png",
+        "width": 1092,
+        "height": 716
+      },
+      {
+        "file": "characters/player/swim_02.png",
+        "width": 1125,
+        "height": 661
+      },
+      {
+        "file": "characters/player/swim_03.png",
+        "width": 1075,
+        "height": 1022
+      },
+      {
+        "file": "characters/player/swim_04.png",
+        "width": 1175,
+        "height": 740
+      },
+      {
+        "file": "characters/player/swim_05.png",
+        "width": 1160,
+        "height": 884
+      }
+    ],
+    "rise": [
+      {
+        "file": "characters/player/rise_01.png",
+        "width": 1037,
+        "height": 1057
+      },
+      {
+        "file": "characters/player/rise_02.png",
+        "width": 1078,
+        "height": 987
+      },
+      {
+        "file": "characters/player/rise_03.png",
+        "width": 923,
+        "height": 1162
+      }
+    ]
+  },
+  "summon": {
+    "front": [
+      {
+        "file": "characters/summon/front_01.png",
+        "width": 952,
+        "height": 1285
+      },
+      {
+        "file": "characters/summon/front_02.png",
+        "width": 1009,
+        "height": 1338
+      },
+      {
+        "file": "characters/summon/front_03.png",
+        "width": 862,
+        "height": 1184
+      },
+      {
+        "file": "characters/summon/front_04.png",
+        "width": 956,
+        "height": 1257
+      }
+    ],
+    "tail": [
+      {
+        "file": "characters/summon/tail_01.png",
+        "width": 1037,
+        "height": 1235
+      },
+      {
+        "file": "characters/summon/tail_02.png",
+        "width": 1016,
+        "height": 1315
+      },
+      {
+        "file": "characters/summon/tail_03.png",
+        "width": 1010,
+        "height": 1185
+      }
+    ]
+  },
+  "enemies": {
+    "anxiety": [
+      {
+        "file": "enemies/anxiety/frame_01.png",
+        "width": 520,
+        "height": 620
+      },
+      {
+        "file": "enemies/anxiety/frame_02.png",
+        "width": 596,
+        "height": 637
+      },
+      {
+        "file": "enemies/anxiety/frame_03.png",
+        "width": 612,
+        "height": 625
+      }
+    ],
+    "weight_gain": [
+      {
+        "file": "enemies/weight-gain/frame_01.png",
+        "width": 526,
+        "height": 607
+      },
+      {
+        "file": "enemies/weight-gain/frame_02.png",
+        "width": 671,
+        "height": 595
+      },
+      {
+        "file": "enemies/weight-gain/frame_03.png",
+        "width": 648,
+        "height": 634
+      }
+    ],
+    "anger": [
+      {
+        "file": "enemies/anger/frame_01.png",
+        "width": 467,
+        "height": 625
+      },
+      {
+        "file": "enemies/anger/frame_02.png",
+        "width": 542,
+        "height": 621
+      },
+      {
+        "file": "enemies/anger/frame_03.png",
+        "width": 510,
+        "height": 614
+      }
+    ]
+  },
+  "projectiles": {
+    "bullet": [
+      {
+        "file": "effects/bullet/frame_01.png",
+        "width": 339,
+        "height": 341
+      },
+      {
+        "file": "effects/bullet/frame_02.png",
+        "width": 692,
+        "height": 408
+      },
+      {
+        "file": "effects/bullet/frame_03.png",
+        "width": 559,
+        "height": 415
+      }
+    ],
+    "bomb": [
+      {
+        "file": "effects/bomb/frame_01.png",
+        "width": 497,
+        "height": 504
+      },
+      {
+        "file": "effects/bomb/frame_02.png",
+        "width": 489,
+        "height": 557
+      },
+      {
+        "file": "effects/bomb/frame_03.png",
+        "width": 485,
+        "height": 571
+      }
+    ]
+  },
+  "ui": {
+    "hearts": [
+      {
+        "file": "ui/hearts/heart_01.png",
+        "width": 510,
+        "height": 456
+      },
+      {
+        "file": "ui/hearts/heart_02.png",
+        "width": 639,
+        "height": 573
+      },
+      {
+        "file": "ui/hearts/heart_03.png",
+        "width": 562,
+        "height": 491
+      }
+    ],
+    "chest": {
+      "file": "ui/chest.png",
+      "width": 1044,
+      "height": 875
+    },
+    "choice_panel": {
+      "file": "ui/choice-panel.png",
+      "width": 1558,
+      "height": 673
+    }
+  },
+  "world": {
+    "dragon_gate": {
+      "file": "world/dragon-gate.png",
+      "width": 826,
+      "height": 1279
+    },
+    "bottom_wave": {
+      "file": "world/bottom-wave.png",
+      "width": 1642,
+      "height": 310
+    },
+    "tall_wave": {
+      "file": "world/tall-wave.png",
+      "width": 1108,
+      "height": 1366
+    },
+    "wave_barrier": {
+      "file": "world/wave-barrier.png",
+      "width": 1444,
+      "height": 560
+    },
+    "wave_variants_sheet": {
+      "file": "world/wave-variants-sheet.png",
+      "width": 1448,
+      "height": 1086
+    }
+  },
+  "bosses": {
+    "octopus": [
+      {
+        "file": "bosses/octopus/frame_01.png",
+        "width": 644,
+        "height": 558
+      },
+      {
+        "file": "bosses/octopus/frame_02.png",
+        "width": 720,
+        "height": 612
+      },
+      {
+        "file": "bosses/octopus/frame_03.png",
+        "width": 724,
+        "height": 607
+      }
+    ],
+    "shark": [
+      {
+        "file": "bosses/shark/frame_01.png",
+        "width": 683,
+        "height": 639
+      },
+      {
+        "file": "bosses/shark/frame_02.png",
+        "width": 666,
+        "height": 654
+      },
+      {
+        "file": "bosses/shark/frame_03.png",
+        "width": 692,
+        "height": 576
+      }
+    ]
+  },
+  "memories": {
+    "cards": [
+      {
+        "file": "memories/01-april-embrace.jpg",
+        "width": 897,
+        "height": 1600
+      },
+      {
+        "file": "memories/02-may-roses.jpg",
+        "width": 1600,
+        "height": 1200
+      },
+      {
+        "file": "memories/03-may20-gifts.jpg",
+        "width": 1200,
+        "height": 1600
+      },
+      {
+        "file": "memories/04-june-flowers.jpg",
+        "width": 1200,
+        "height": 1600
+      },
+      {
+        "file": "memories/05-june-food.jpg",
+        "width": 1164,
+        "height": 1600
+      },
+      {
+        "file": "memories/06-july-study.jpg",
+        "width": 1163,
+        "height": 1600
+      }
+    ],
+    "final_story": [
+      {
+        "file": "memories/final-sketch-01.jpg",
+        "width": 997,
+        "height": 1600
+      },
+      {
+        "file": "memories/final-sketch-02.jpg",
+        "width": 1600,
+        "height": 870
+      },
+      {
+        "file": "memories/final-sketch-03.jpg",
+        "width": 997,
+        "height": 1600
+      },
+      {
+        "file": "memories/final-sketch-04.jpg",
+        "width": 1600,
+        "height": 1073
+      }
+    ]
+  }
+}
