@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#111820">
   <title>&#38182;&#40100;&#19978;&#23736;</title>
   <link rel="icon" href="favicon.ico">
-  <link rel="stylesheet" href="styles.css?v=20260726-pages">
+  <link rel="stylesheet" href="styles.css?v=20260726-mobile">
 </head>
 <body>
   <main class="game-shell">
@@ -28,11 +28,24 @@
         </div>
       </div>
       <div id="startScreen" class="screen start-screen">
+        <div id="loadingJourney" class="loading-journey" aria-live="polite">
+          <div class="loading-orbit" aria-hidden="true">
+            <span class="orbit-ring orbit-ring-one"></span>
+            <span class="orbit-ring orbit-ring-two"></span>
+            <img class="loading-fish" src="game-assets/characters/player/swim_01.png" alt="">
+            <span class="loading-pearl"></span>
+          </div>
+          <div class="loading-copy">
+            <strong id="loadingTitle">锦鲤正在把回忆收进海浪里</strong>
+            <span id="loadingStatus">准备启程 · 0%</span>
+            <span class="loading-track"><span id="loadingProgress"></span></span>
+          </div>
+        </div>
         <div class="start-copy">
           <p class="eyebrow">200 DAYS</p>
           <h1>&#38182;&#40100;&#19978;&#23736;</h1>
           <p>&#25226;&#25105;&#20204;&#30340;&#22238;&#24518;&#25910;&#36827;&#25163;&#37324;&#65292;&#19968;&#36215;&#28216;&#21521;&#29233;&#19982;&#19978;&#23736;&#30340;&#26410;&#26469;&#12290;</p>
-          <button id="startButton" class="primary-button" type="button">&#24320;&#22987;&#28216;</button>
+          <button id="startButton" class="primary-button" type="button" disabled>回忆装载中</button>
         </div>
         <div class="controls"><span><kbd>&uarr;</kbd> <kbd>&darr;</kbd> &#20999;&#25442;&#36187;&#36947;</span><span>&#28857;&#20987;&#24213;&#37096;&#32426;&#24565;&#21345;&#37322;&#25918;&#25216;&#33021;</span></div>
       </div>
@@ -110,15 +123,15 @@
         <output id="testStatus"></output>
       </div>
     </section>
-    <div class="mobile-controls" aria-label="&#35302;&#23631;&#25511;&#21046;">
+    <div class="mobile-controls" aria-label="触屏控制">
       <div class="dpad">
-        <button type="button" data-key="ArrowUp" aria-label="&#19978;&#36187;&#36947;">&uarr;</button>
-        <button type="button" data-key="ArrowDown" aria-label="&#19979;&#36187;&#36947;">&darr;</button>
+        <button type="button" data-key="ArrowUp" aria-label="游向上方赛道"><span>&uarr;</span><small>向上游</small></button>
+        <button type="button" data-key="ArrowDown" aria-label="游向下方赛道"><span>&darr;</span><small>向下游</small></button>
       </div>
-      <div class="mobile-card-hint">&#28857;&#20987;&#25163;&#29260;&#37322;&#25918;&#25216;&#33021;</div>
+      <div class="mobile-card-hint">在海面上下滑动<br>也可以切换赛道</div>
     </div>
   </main>
   <audio id="bgm" src="game-assets/audio/our-future.mp3" preload="auto" loop></audio>
-  <script src="game.js?v=20260726-pages"></script>
+  <script src="game.js?v=20260726-mobile"></script>
 </body>
 </html>

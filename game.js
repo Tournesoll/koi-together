@@ -5,9 +5,11 @@ const ctx = canvas.getContext("2d");
 const W = canvas.width;
 const H = canvas.height;
 const LANES = [205, 365, 525];
-const testMode = new URLSearchParams(location.search).has("test");
+const query = new URLSearchParams(location.search);
+const testMode = query.has("test");
+const testScreen = query.get("screen");
 const $ = id => document.getElementById(id);
-const ui = Object.fromEntries(["hud","heartMeter","durabilityValue","scoreValue","waveValue","levelValue","xpValue","ultimateBadge","startScreen","startButton","countdown","upgradeScreen","choiceEyebrow","choiceTitle","endScreen","endEyebrow","endTitle","endMessage","finalScore","restartButton","toast","cinematic","memoryScreen","memoryCard","memoryDate","memoryTitle","memoryText","memoryImages","memoryBackTitle","flipMemoryButton","keepMemoryButton","cardHand","giftScreen","giftChestButton","giftMessage","finalRescue","finalChestButton","audioToggle","bgm"].map(id => [id, $(id)]));
+const ui = Object.fromEntries(["hud","heartMeter","durabilityValue","scoreValue","waveValue","levelValue","xpValue","ultimateBadge","startScreen","startButton","loadingJourney","loadingTitle","loadingStatus","loadingProgress","countdown","upgradeScreen","choiceEyebrow","choiceTitle","endScreen","endEyebrow","endTitle","endMessage","finalScore","restartButton","toast","cinematic","memoryScreen","memoryCard","memoryDate","memoryTitle","memoryText","memoryImages","memoryBackTitle","flipMemoryButton","keepMemoryButton","cardHand","giftScreen","giftChestButton","giftMessage","finalRescue","finalChestButton","audioToggle","bgm"].map(id => [id, $(id)]));
 const testTools = $("testTools");
 const testStatus = $("testStatus");
 if (testMode) testTools.classList.remove("hidden");
@@ -33,9 +35,15 @@ const paths = {
 paths.memories=Array.from({length:6},(_,i)=>`game-assets/memories/${String(i+1).padStart(2,"0")}-${["april-embrace","may-roses","may20-gifts","june-flowers","june-food","july-study"][i]}.jpg`);
 paths.finalMemories=Array.from({length:4},(_,i)=>`game-assets/memories/final-sketch-${String(i+1).padStart(2,"0")}.jpg`);
 const images = {};
-function load(path){return new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>{images[path]=image;resolve();};image.onerror=()=>reject(path);image.src=path;});}
+const assetPaths=[...new Set(Object.values(paths).flat())];
+let loadedAssets=0;
+const totalAssets=assetPaths.length+1;
+function updateLoading(label){loadedAssets++;const percent=Math.round(loadedAssets/totalAssets*100);ui.loadingProgress.style.width=`${percent}%`;ui.loadingStatus.textContent=`${label} · ${percent}%`;}
+function load(path){return new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>{images[path]=image;updateLoading("回忆正在发光");resolve();};image.onerror=()=>reject(path);image.src=path;});}
+async function loadMusic(){const response=await fetch(ui.bgm.getAttribute("src"),{cache:"force-cache"});if(!response.ok)throw new Error("background music");const blob=await response.blob();ui.bgm.src=URL.createObjectURL(blob);ui.bgm.load();updateLoading("旋律已经抵达");}
 let ready=false;
-Promise.all([...new Set(Object.values(paths).flat())].map(load)).then(()=>{ready=true;draw(0);}).catch(path=>{console.error(`Asset failed: ${path}`);ready=true;draw(0);showToast(`Asset failed: ${path}`,10000);});
+ui.startScreen.classList.add("loading");
+Promise.all([...assetPaths.map(load),loadMusic()]).then(()=>{ready=true;draw(0);ui.loadingTitle.textContent="回忆已经收好，我们一起出发";ui.loadingStatus.textContent="全部就绪 · 100%";ui.loadingProgress.style.width="100%";setTimeout(()=>{ui.loadingJourney.classList.add("ready");ui.startScreen.classList.remove("loading");ui.startButton.disabled=false;ui.startButton.textContent="开始游";if(testMode&&testScreen==="choice"){reset();setTimeout(()=>openChoices(false),80);}},700);}).catch(error=>{console.error("Asset failed",error);ui.loadingTitle.textContent="有一朵浪花迟到了";ui.loadingStatus.textContent="请刷新页面再试一次";});
 
 const baseStats = () => ({damage:2,fireRate:1,bulletCount:1,penetrate:0,crit:.05,critDamage:2,bulletSpeed:1,explosion:0,explosionRadius:105,explosionDamage:1,maxDurability:100,healOnKill:0,damageReduction:0,shieldInterval:0,slow:0,rageReduction:0,block:.0});
 const state = {phase:"menu",lane:1,durability:100,score:0,wave:1,totalWaves:20,waveTime:0,waveLength:testMode?60:10,spawnTime:0,bombTime:0,shotTime:0,level:1,xp:0,xpNeed:5,ultimate:0,invincible:0,shield:0,shieldClock:0,summon:0,worldX:0,shake:0,hurtFlash:0,endingTime:0,nextMemory:0,collected:[],revealed:[],activeMemory:null,memoryResume:"playing",tripleShot:0,powerBuff:0,freezeTime:0,debuffTime:0,finalAssist:0,finalCardDelay:0,finalStoryShown:false,finalVictoryPending:false,stats:baseStats(),bullets:[],enemyShots:[],enemies:[],chests:[],effects:[],eliteSpawned:false,bossSpawned:false,choices:[]};
@@ -197,7 +205,11 @@ let previous=performance.now();function loop(now){const dt=Math.min(.05,(now-pre
 function handleKey(code){if(state.phase!=="playing")return;if(code==="ArrowUp"||code==="KeyW")state.lane=Math.max(0,state.lane-1);if(code==="ArrowDown"||code==="KeyS")state.lane=Math.min(2,state.lane+1);if(code==="Space")ultimate();}
 window.addEventListener("keydown",e=>{if(["ArrowUp","ArrowDown","Space"].includes(e.code))e.preventDefault();if(!e.repeat)handleKey(e.code);});
 document.querySelectorAll("[data-key]").forEach(b=>b.addEventListener("pointerdown",e=>{e.preventDefault();handleKey(b.dataset.key);}));
-ui.startButton.addEventListener("click",()=>{unlockAudio();if(ready)reset();});ui.restartButton.addEventListener("click",()=>{unlockAudio();reset();});ui.audioToggle.addEventListener("click",toggleAudio);document.querySelectorAll("[data-choice]").forEach(b=>b.addEventListener("click",()=>choose(Number(b.dataset.choice))));
+let touchStartY=null;
+canvas.addEventListener("pointerdown",event=>{if(event.pointerType!=="mouse")touchStartY=event.clientY;});
+canvas.addEventListener("pointerup",event=>{if(touchStartY===null||event.pointerType==="mouse")return;const delta=event.clientY-touchStartY;touchStartY=null;if(Math.abs(delta)>24)handleKey(delta<0?"ArrowUp":"ArrowDown");});
+canvas.addEventListener("pointercancel",()=>{touchStartY=null;});
+ui.startButton.addEventListener("click",()=>{if(!ready)return;unlockAudio();reset();});ui.restartButton.addEventListener("click",()=>{unlockAudio();reset();});ui.audioToggle.addEventListener("click",toggleAudio);document.querySelectorAll("[data-choice]").forEach(b=>b.addEventListener("click",()=>choose(Number(b.dataset.choice))));
 ui.flipMemoryButton.addEventListener("click",()=>{sfx("flip");ui.memoryCard.classList.add("flipped");});
 ui.keepMemoryButton.addEventListener("click",()=>{
   const active=state.activeMemory;
